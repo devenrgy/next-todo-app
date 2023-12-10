@@ -12,12 +12,13 @@ import {
   reverseTodos,
 } from '@/lib/features/todos/todosSlice'
 import { Table, TableBody, TableCaption, TableCell, TableRow } from '@/components/ui/table'
-import { cn, saveLocalStorage } from '@/lib/utils'
+import { cn } from '@/lib/utils'
 import { Checkbox } from '../ui/checkbox'
 import { X } from 'lucide-react'
 import { Draggable } from '../Draggable'
 import { restrictToWindowEdges } from '@dnd-kit/modifiers'
 import { useEffect, useState } from 'react'
+import { saveLocalStorage } from '@/lib/localStorage'
 
 export interface TodoListProps extends React.HTMLAttributes<HTMLDivElement> {}
 

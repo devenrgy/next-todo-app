@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import type { RootState } from '@/lib/store'
-import { loadLocalStorage } from '@/lib/utils'
+import { loadLocalStorage } from '@/lib/localStorage'
 
 export interface Todo {
   id: string
