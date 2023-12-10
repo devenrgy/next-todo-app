@@ -4,6 +4,7 @@
 
 @layer base {
   :root {
+    --bg-wallpaper: url('/light-bg.jpg') no-repeat center;
     --background: 0 0% 100%;
     --foreground: 240 10% 3.9%;
     --card: 0 0% 100%;
@@ -27,6 +28,7 @@
   }
 
   .dark {
+    --bg-wallpaper: url('/dark-bg.jpg') no-repeat center;
     --background: 240 10% 3.9%;
     --foreground: 0 0% 98%;
     --card: 240 10% 3.9%;
@@ -54,6 +56,7 @@
     @apply border-border;
   }
   body {
+    background: var(--bg-wallpaper);
     @apply bg-background text-foreground;
   }
 }
