@@ -1,5 +1,3 @@
-'use client'
-
 import { Todo } from './features/todos/todosSlice'
 
 export function saveLocalStorage(todos: Todo[]) {

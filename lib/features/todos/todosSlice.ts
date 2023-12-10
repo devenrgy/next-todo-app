@@ -1,5 +1,3 @@
-'use client'
-
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import type { RootState } from '@/lib/store'
 import { loadLocalStorage } from '@/lib/localStorage'
@@ -15,8 +13,14 @@ export interface TodosState {
   reverse: boolean
 }
 
+let getUserfromLocalStorage = null
+
+if (typeof window !== 'undefined') {
+  getUserfromLocalStorage = loadLocalStorage() ?? []
+}
+
 const initialState: TodosState = {
-  todos: loadLocalStorage() ?? [],
+  todos: getUserfromLocalStorage,
   reverse: false,
 }
 
