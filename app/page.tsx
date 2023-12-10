@@ -12,7 +12,7 @@ export default function Home() {
 
       <TodoInput className={'h-12 text-base'} placeholder={'Create a new todo...'} />
 
-      <TodoList className={'py-10'} />
+      <TodoList />
     </main>
   )
 }

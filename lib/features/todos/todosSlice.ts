@@ -9,10 +9,12 @@ export interface Todo {
 
 export interface TodosState {
   todos: Todo[]
+  typeSort: 'asc' | 'desc'
 }
 
 const initialState: TodosState = {
   todos: [],
+  typeSort: 'desc',
 }
 
 export const todosSlice = createSlice({
@@ -20,10 +22,27 @@ export const todosSlice = createSlice({
   initialState,
   reducers: {
     addTodo: (state, action: PayloadAction<Todo>) => {
-      state.todos.push(action.payload)
+      if (!action.payload.value) return
+
+      if (state.typeSort === 'desc') {
+        state.todos.push(action.payload)
+      } else {
+        state.todos.unshift(action.payload)
+      }
     },
     removeTodo: (state, action: PayloadAction<Todo>) => {
       state.todos = state.todos.filter(todo => todo.id !== action.payload.id)
+    },
+    sortTodos: state => {
+      if (state.typeSort === 'desc') {
+        state.typeSort = 'asc'
+      } else {
+        state.typeSort = 'desc'
+      }
+      state.todos = state.todos.reverse()
+    },
+    clearCompletedTodos: state => {
+      state.todos = state.todos.filter(todo => !todo.completed)
     },
     completeTodo: (state, action: PayloadAction<Todo>) => {
       state.todos = state.todos.map(todo =>
@@ -33,7 +52,7 @@ export const todosSlice = createSlice({
   },
 })
 
-export const { addTodo, removeTodo, completeTodo } = todosSlice.actions
+export const { addTodo, removeTodo, completeTodo, clearCompletedTodos, sortTodos } = todosSlice.actions
 
 export const selectCount = (state: RootState) => state.todos
 
