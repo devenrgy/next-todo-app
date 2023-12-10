@@ -1,5 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import type { RootState } from '@/lib/store'
+import { loadLocalStorage } from '@/lib/utils'
 
 export interface Todo {
   id: string
@@ -9,12 +10,12 @@ export interface Todo {
 
 export interface TodosState {
   todos: Todo[]
-  typeSort: 'asc' | 'desc'
+  reverse: boolean
 }
 
 const initialState: TodosState = {
-  todos: [],
-  typeSort: 'desc',
+  todos: loadLocalStorage() ?? [],
+  reverse: false,
 }
 
 export const todosSlice = createSlice({
@@ -24,7 +25,7 @@ export const todosSlice = createSlice({
     addTodo: (state, action: PayloadAction<Todo>) => {
       if (!action.payload.value) return
 
-      if (state.typeSort === 'desc') {
+      if (!state.reverse) {
         state.todos.push(action.payload)
       } else {
         state.todos.unshift(action.payload)
@@ -33,17 +34,16 @@ export const todosSlice = createSlice({
     removeTodo: (state, action: PayloadAction<Todo>) => {
       state.todos = state.todos.filter(todo => todo.id !== action.payload.id)
     },
-    sortTodos: state => {
-      if (state.typeSort === 'desc') {
-        state.typeSort = 'asc'
-      } else {
-        state.typeSort = 'desc'
-      }
+
+    reverseTodos: state => {
+      state.reverse = !state.reverse
       state.todos = state.todos.reverse()
     },
+
     clearCompletedTodos: state => {
       state.todos = state.todos.filter(todo => !todo.completed)
     },
+
     completeTodo: (state, action: PayloadAction<Todo>) => {
       state.todos = state.todos.map(todo =>
         todo.id === action.payload.id ? { ...todo, completed: !todo.completed } : todo,
@@ -52,8 +52,21 @@ export const todosSlice = createSlice({
   },
 })
 
-export const { addTodo, removeTodo, completeTodo, clearCompletedTodos, sortTodos } = todosSlice.actions
+export const { addTodo, removeTodo, completeTodo, clearCompletedTodos, reverseTodos } = todosSlice.actions
 
-export const selectCount = (state: RootState) => state.todos
+export const filterTodos = (state: RootState, type?: string) => {
+  const { todos } = state.todos
+  switch (type) {
+    case 'all':
+      return todos
+    case 'active':
+      return todos.filter(todo => !todo.completed)
+    case 'completed':
+      return todos.filter(todo => todo.completed)
+
+    default:
+      throw new Error('Wrong sort type')
+  }
+}
 
 export default todosSlice.reducer
