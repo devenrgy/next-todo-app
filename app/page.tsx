@@ -10,9 +10,9 @@ export default function Home() {
         <ModeToggle />
       </div>
 
-      <TodoInput />
+      <TodoInput className={'h-12 text-base'} placeholder={'Create a new todo...'} />
 
-      <TodoList />
+      <TodoList className={'py-10'} />
     </main>
   )
 }

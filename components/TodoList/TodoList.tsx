@@ -7,12 +7,14 @@ import { Toggle } from '@/components/ui/toggle'
 import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
 import { cn } from '@/lib/utils'
 
-export function TodoList() {
+export interface TodoListProps extends React.HTMLAttributes<HTMLDivElement> {}
+
+export function TodoList(props: TodoListProps) {
   const store = useAppStore()
   const { todos } = useAppSelector(state => state.todos)
   const dispatch = useAppDispatch()
   return (
-    <>
+    <div {...props}>
       <div className={cn('mb-16 overflow-hidden rounded-lg border', !todos.length && 'hidden')}>
         <Table className={'bg-background text-base'}>
           <TableCaption className={'m-0 p-4  text-left'}>
@@ -42,6 +44,6 @@ export function TodoList() {
       </div>
 
       <p className={cn('text-center text-sm', !todos.length && 'hidden')}>Drag and drop to reorder list</p>
-    </>
+    </div>
   )
 }
