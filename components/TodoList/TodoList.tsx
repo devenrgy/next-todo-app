@@ -2,7 +2,7 @@
 
 import { DndContext, PointerSensor, closestCenter, useSensor, useSensors } from '@dnd-kit/core'
 import { Button } from '@/components/ui/button'
-import { useAppSelector, useAppDispatch } from '@/lib/hooks'
+import { useAppSelector, useAppDispatch, useAppStore } from '@/lib/hooks'
 import {
   removeTodo,
   clearCompletedTodos,
@@ -18,11 +18,11 @@ import { X } from 'lucide-react'
 import { Draggable } from '../Draggable'
 import { restrictToWindowEdges } from '@dnd-kit/modifiers'
 import { useEffect, useState } from 'react'
-import { store } from '@/lib/store'
 
 export interface TodoListProps extends React.HTMLAttributes<HTMLDivElement> {}
 
 export function TodoList(props: TodoListProps) {
+  const store = useAppStore()
   const { todos: storeTodos } = useAppSelector(state => state.todos)
   const dispatch = useAppDispatch()
   const [todos, setTodos] = useState(storeTodos)
