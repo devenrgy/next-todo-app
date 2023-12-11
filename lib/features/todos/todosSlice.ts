@@ -1,6 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import type { RootState } from '@/lib/store'
-import { loadLocalStorage } from '@/lib/localStorage'
 
 export interface Todo {
   id: string
@@ -13,14 +12,8 @@ export interface TodosState {
   reverse: boolean
 }
 
-let getUserfromLocalStorage = null
-
-if (typeof window !== 'undefined') {
-  getUserfromLocalStorage = loadLocalStorage() ?? []
-}
-
 const initialState: TodosState = {
-  todos: getUserfromLocalStorage,
+  todos: [],
   reverse: false,
 }
 
@@ -60,8 +53,7 @@ export const todosSlice = createSlice({
 
 export const { addTodo, removeTodo, completeTodo, clearCompletedTodos, reverseTodos } = todosSlice.actions
 
-export const filterTodos = (state: RootState, type?: string) => {
-  const { todos } = state.todos
+export const filterTodos = (todos: Todo[], type?: string) => {
   switch (type) {
     case 'all':
       return todos

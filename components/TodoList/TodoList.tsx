@@ -2,7 +2,7 @@
 
 import { DndContext, PointerSensor, closestCenter, useSensor, useSensors } from '@dnd-kit/core'
 import { Button } from '@/components/ui/button'
-import { useAppStore, useAppSelector, useAppDispatch } from '@/lib/hooks'
+import { useAppSelector, useAppDispatch } from '@/lib/hooks'
 import {
   removeTodo,
   clearCompletedTodos,
@@ -18,12 +18,11 @@ import { X } from 'lucide-react'
 import { Draggable } from '../Draggable'
 import { restrictToWindowEdges } from '@dnd-kit/modifiers'
 import { useEffect, useState } from 'react'
-import { saveLocalStorage } from '@/lib/localStorage'
+import { store } from '@/lib/store'
 
 export interface TodoListProps extends React.HTMLAttributes<HTMLDivElement> {}
 
 export function TodoList(props: TodoListProps) {
-  const store = useAppStore()
   const { todos: storeTodos } = useAppSelector(state => state.todos)
   const dispatch = useAppDispatch()
   const [todos, setTodos] = useState(storeTodos)
@@ -39,7 +38,6 @@ export function TodoList(props: TodoListProps) {
 
   useEffect(() => {
     setTodos(storeTodos)
-    saveLocalStorage(storeTodos)
   }, [storeTodos])
 
   const handleCompleteTodo = (todo: Todo) => {
@@ -61,7 +59,7 @@ export function TodoList(props: TodoListProps) {
 
   const handleSortTodos = (evt: React.MouseEvent<HTMLButtonElement>) => {
     const filterType = evt.target as HTMLElement
-    setTodos(filterTodos(store.getState(), filterType.textContent!.toLowerCase()))
+    setTodos(filterTodos(storeTodos, filterType.textContent!.toLowerCase()))
   }
 
   return (
