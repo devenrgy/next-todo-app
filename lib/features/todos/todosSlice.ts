@@ -12,7 +12,7 @@ export interface TodosState {
 }
 
 const initialState: TodosState = {
-  todos: typeof window !== 'undefined' && JSON.parse(localStorage.getItem('todos') || '[]'),
+  todos: typeof window !== 'undefined' ? JSON.parse(localStorage.getItem('todos') || '[]') : [],
   reverse: false,
 }
 
