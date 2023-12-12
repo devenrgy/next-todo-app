@@ -19,7 +19,8 @@ import { Draggable } from '../Draggable'
 import { restrictToWindowEdges } from '@dnd-kit/modifiers'
 import { useEffect, useState } from 'react'
 
-export interface TodoListProps extends React.HTMLAttributes<HTMLDivElement> {}
+export interface TodoListProps extends React.HTMLAttributes<HTMLDivElement> {
+}
 
 export function TodoList(props: TodoListProps) {
   const store = useAppStore()
@@ -38,6 +39,10 @@ export function TodoList(props: TodoListProps) {
 
   useEffect(() => {
     setTodos(storeTodos)
+
+    if (typeof window !== 'undefined') {
+      localStorage.setItem('todos', JSON.stringify(storeTodos))
+    }
   }, [storeTodos])
 
   const handleCompleteTodo = (todo: Todo) => {
@@ -134,7 +139,7 @@ export function TodoList(props: TodoListProps) {
                   </TableCell>
                   <TableCell className={'w-min'}>
                     <Button onClick={() => handleRemoveTodo(todo)} variant={'ghost'}>
-                      <X className='h-6 w-6' />
+                      <X className="h-6 w-6"/>
                     </Button>
                   </TableCell>
                 </TableRow>
